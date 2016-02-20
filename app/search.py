@@ -99,8 +99,9 @@ def a_star_search(result, grid, start, goal):
                 priority = new_cost + heuristic(goal,  next)
                 frontier.put(next, priority)
                 came_from[next] = current
-  
-    print reconstruct_path(came_from, current, goal)    
+ 
+
+    print "Path:", reconstruct_path(came_from, current, goal)    
 
 def ping(grid, current, goals):
     shared_array_base = _Array(ctypes.c_int, 3)
