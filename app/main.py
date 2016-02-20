@@ -29,7 +29,7 @@ def get_taunt():
 @bottle.post('/start')
 def start():
     data = bottle.request.json
-    
+    print data   
     TURN = data["turn"]
     CURRENT = [ snake["coords"] for snake in data["snakes"] if data["snake"]["id "]== ID ][0]
 
