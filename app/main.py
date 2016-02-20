@@ -4,7 +4,7 @@ from search import *
 from snake import Snake
 
 ID="3fc52e17-4dcf-48df-b2b7-c5f69838e92f"
-SNAKE=Snake(ID, [0,0], 0)
+CURRENT
 
 @bottle.route('/static/<path:path>')
 def static(path):
@@ -31,8 +31,6 @@ def start():
     data = bottle.request.json
     
     TURN = data["turn"]
-    HEIGHT = data["height"]
-    WIDTH = data["width"]
     CURRENT = [ snake["coords"] for snake in data["snakes"] if data["snake"]["id "]== ID ][0]
 
 
@@ -45,7 +43,7 @@ def start():
 def move():
     data = bottle.request.json
 
-    GRID = SquareGrid(WIDTH, HEIGHT)
+    GRID = SquareGrid(data["height"], data["width"])
     GRID.snakes = [ x for snake in data["snakes"] for x in data["snakes"]["coords"] ]
 
     FOOD = [ food for food in data["food"] ]
