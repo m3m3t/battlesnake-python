@@ -91,7 +91,9 @@ def a_star_search(result, grid, start, goal):
                 priority = new_cost + heuristic(goal,  next)
                 frontier.put(next, priority)
                 came_from[next] = current
-   
+  
+    print came_from
+    print cost_so_far
     result[0] = came_from
     result[1] = cost_so_far
     print "Result:", result
