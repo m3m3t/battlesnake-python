@@ -31,8 +31,6 @@ def start():
     data = bottle.request.json
 
     TURN = data["turn"]
-    CURRENT = [ snake["coords"] for snake in data["snakes"] if snake["id"] == ID ][0]
-    print "Current location: ", CURRENT
 
     return {
         'taunt': get_taunt() 
@@ -44,11 +42,14 @@ def move():
     data = bottle.request.json
 
     GRID = SquareGrid(data["height"], data["width"])
-    GRID.snakes = [ snake["coords"] for snakes in data["snakes"] for snake in snakes ]
+    GRID.snakes = [ snake["coords"] for snake in data["snakes"]  ]
+    
+    current = [ snake["coords"] for snake in data["snakes"] if snake["id"] == ID ][0]
+    food = [ food for food in data["food"] ]
+    
+    print "Current location: ", current 
 
-    FOOD = [ food for food in data["food"] ]
-
-    move = get_move(grid)
+    move = get_move(grid,current, food)
 
     return {
         'move': move,
