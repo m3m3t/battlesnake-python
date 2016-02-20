@@ -37,7 +37,7 @@ class SquareGrid:
         return vector
 
     def cost(self, from_node, to_node):
-        if(self.passable(to_node) return 1
+        if self.passable(to_node) return 1
         return 100
 
 import heapq
