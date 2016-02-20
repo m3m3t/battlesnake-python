@@ -89,6 +89,7 @@ def a_star_search(result, grid, start, goal):
    
     result[0] = came_from
     result[1] = cost_so_far
+    print result
 
 def ping(grid, current, goals):
     shared_array_base = _Array(ctypes.c_int, 2)
@@ -102,7 +103,7 @@ def ping(grid, current, goals):
     subgraph = [(0,h,0,w),(0,h,w,c),(h,r,0,w),(h,r,w,c)]
     processes = [ _Process(target=a_star_search, args=(result, subgraph[i], current, goals[i])) for i in range(0,4) ]
     """
-    goal = [1,1] 
+    goal = goals[0] 
     processes = [ _Process(target=a_star_search, args=(result, grid, current, goal)) ]
     
     for p in processes:
