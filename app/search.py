@@ -92,7 +92,9 @@ def a_star_search(result, grid, start, goal):
                 frontier.put(next, priority)
                 came_from[next] = current
   
-    print came_from
+    #print came_from
+    next_move = [ x for x in cost_so_far.values() if x == 1]
+    print next_move
     print cost_so_far[goal]
     result[0] = came_from[0][1]
     result[1] = came_from[0][1]
