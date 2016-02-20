@@ -85,7 +85,7 @@ def a_star_search(result, grid, start, goal):
             break
         
         for next in grid.neighbors(current):
-            new_cost = cost_so_far[current] + graph.cost(current, next)
+            new_cost = cost_so_far[current] + grid.cost(current, next)
             if next not in cost_so_far or new_cost < cost_so_far[next]:
                 cost_so_far[next] = new_cost
                 priority = new_cost + heuristic(goal, 1, next)
