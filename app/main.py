@@ -43,7 +43,7 @@ def move():
 
     grid = SquareGrid(data["height"], data["width"])
     snakes = [ snake["coords"] for snake in data["snakes"]  ]
-    grid.snakes = [ x for x snakes ]
+    grid.snakes = [ x for x in snakes ]
     
     current = [ snake["coords"] for snake in data["snakes"] if snake["id"] == ID ][0]
     food = [ food for food in data["food"] ]
