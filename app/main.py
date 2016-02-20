@@ -31,7 +31,7 @@ def start():
     data = bottle.request.json
     print data   
     TURN = data["turn"]
-    CURRENT = [ snake["coords"] for snake in data["snakes"] if data["snake"]["id "]== ID ][0]
+    CURRENT = [ snake["coords"] for snake in data["snakes"] if snake["id"] == ID ][0]
 
 
     return {
@@ -44,7 +44,7 @@ def move():
     data = bottle.request.json
 
     GRID = SquareGrid(data["height"], data["width"])
-    GRID.snakes = [ x for snake in data["snakes"] for x in data["snakes"]["coords"] ]
+    GRID.snakes = [ x["coords"] for snake in data["snakes"] for x in snake ]
 
     FOOD = [ food for food in data["food"] ]
 
