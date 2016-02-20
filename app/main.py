@@ -29,11 +29,11 @@ def get_taunt():
 @bottle.post('/start')
 def start():
     data = bottle.request.json
-
-    TURN = data.turn
-    HEIGHT = data.height
-    WIDTH = data.width
-    CURRENT = [ snake.coords for snake in data.snakes if data.snake.id == ID ][0]
+    
+    TURN = data["turn"]
+    HEIGHT = data["height"]
+    WIDTH = data["width"]
+    CURRENT = [ snake["coords"] for snake in data["snakes"] if data["snake"]["id "]== ID ][0]
 
 
     return {
@@ -45,10 +45,10 @@ def start():
 def move():
     data = bottle.request.json
 
-    GRID = SquareGrid(data.width, data.height)
-    GRID.snakes = [ x for snake in data.snakes for x in data.snakes.coords ]
+    GRID = SquareGrid(WIDTH, HEIGHT)
+    GRID.snakes = [ x for snake in data["snakes"] for x in data["snakes"]["coords"] ]
 
-    FOOD = [ food for food in data.food ]
+    FOOD = [ food for food in data["food"] ]
 
     move = get_move(grid)
 
@@ -65,7 +65,7 @@ def end():
     # TODO: Do things with data
 
     return {
-        'taunt': 'battlesnake-python!'
+        'taunt': 'suckit'
     }
 
 
