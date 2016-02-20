@@ -49,7 +49,7 @@ def move():
     
     print "Current location: ", current 
 
-    move = get_move(grid,current, food)
+    move = get_move(grid,current[0], food)
 
     return {
         'move': move,
