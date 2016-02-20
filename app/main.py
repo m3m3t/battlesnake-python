@@ -4,7 +4,7 @@ from search import *
 from snake import Snake
 
 ID="3fc52e17-4dcf-48df-b2b7-c5f69838e92f"
-CURRENT
+CURRENT = None
 
 @bottle.route('/static/<path:path>')
 def static(path):
