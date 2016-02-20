@@ -100,6 +100,8 @@ def ping(grid, current, goals):
     shared_array_base = _Array(ctypes.c_int, 2)
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())
     current = tuple(current) 
+    goal = tuple(goals[0])
+    
     """
     (r,c) = graph.shape
 
@@ -110,7 +112,6 @@ def ping(grid, current, goals):
     processes = [ _Process(target=a_star_search, args=(result, subgraph[i], current, goals[i])) for i in range(0,4) ]
     """
     print "Food:", goals
-    goal = goals[0]
     processes = [ _Process(target=a_star_search, args=(result, grid, current, goal)) ]
     
     for p in processes:
