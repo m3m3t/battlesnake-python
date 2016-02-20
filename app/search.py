@@ -67,7 +67,15 @@ def heuristic(a, b, _type='manhattan'):
         return D * (dx + dy) + (D2 - 2 * D) * min(dx, dy) 
     elif _type == 'euclidean':
         return D * (dx*dx + dy*dy)
-        
+
+def reconstruct_path(came_from, start, goal):
+    current = goal
+    path = [current]
+    while current != start:
+        current = came_from[current]
+        path.append(current)
+        path.reverse()
+    return path
 
 def a_star_search(result, grid, start, goal):
     
@@ -92,14 +100,7 @@ def a_star_search(result, grid, start, goal):
                 frontier.put(next, priority)
                 came_from[next] = current
   
-    #print came_from
-    next_move = [ x for x in cost_so_far.values() if x == 1]
-    print next_move
-    print cost_so_far[goal]
-    result[0] = came_from[0][1]
-    result[1] = came_from[0][1]
-    result[2] = cost_so_far[goal]
-    print "Result:", result
+    print reconstruct_path(came_from, current, goal)    
 
 def ping(grid, current, goals):
     shared_array_base = _Array(ctypes.c_int, 3)
