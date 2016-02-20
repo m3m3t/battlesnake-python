@@ -92,13 +92,15 @@ def a_star_search(result, grid, start, goal):
                 frontier.put(next, priority)
                 came_from[next] = current
   
+    print came_from
     print cost_so_far[goal]
-    result[0] = came_from
-    result[1] = cost_so_far
+    result[0] = came_from[0][1]
+    result[1] = came_from[0][1]
+    result[2] = cost_so_far[goal]
     print "Result:", result
 
 def ping(grid, current, goals):
-    shared_array_base = _Array(ctypes.c_int, 2)
+    shared_array_base = _Array(ctypes.c_int, 3)
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())
     current = tuple(current) 
     goal = tuple(goals[0])
