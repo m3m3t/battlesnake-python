@@ -70,10 +70,6 @@ def heuristic(a, b, _type='manhattan'):
         
 
 def a_star_search(result, grid, start, goal):
-    print result
-    print grid
-    print start
-    print goal
     
     frontier = PriorityQueue()
     frontier.put(start, 0)
@@ -113,8 +109,8 @@ def ping(grid, current, goals):
     subgraph = [(0,h,0,w),(0,h,w,c),(h,r,0,w),(h,r,w,c)]
     processes = [ _Process(target=a_star_search, args=(result, subgraph[i], current, goals[i])) for i in range(0,4) ]
     """
-    print goals
-    goal = goals
+    print "Food:", goals
+    goal = goals[0]
     processes = [ _Process(target=a_star_search, args=(result, grid, current, goal)) ]
     
     for p in processes:
