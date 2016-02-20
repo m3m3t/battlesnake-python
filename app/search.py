@@ -80,7 +80,7 @@ def a_star_search(result, grid, start, goal):
     
     while not frontier.empty():
         current = frontier.get()
-        print current  
+        
         if current == goal:
             break
         
@@ -92,8 +92,7 @@ def a_star_search(result, grid, start, goal):
                 frontier.put(next, priority)
                 came_from[next] = current
   
-    print came_from
-    print cost_so_far
+    print cost_so_far[goal]
     result[0] = came_from
     result[1] = cost_so_far
     print "Result:", result
