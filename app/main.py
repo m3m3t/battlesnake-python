@@ -1,6 +1,10 @@
 import bottle
 import os
+from search import *
+from snake import Snake
 
+ID="3fc52e17-4dcf-48df-b2b7-c5f69838e92f"
+SNAKE=Snake(ID, [0,0], 0)
 
 @bottle.route('/static/<path:path>')
 def static(path):
@@ -19,15 +23,21 @@ def index():
         'head': head_url
     }
 
+def get_taunt():
+    return "TODO"
 
 @bottle.post('/start')
 def start():
     data = bottle.request.json
 
-    # TODO: Do things with data
+    TURN = data.turn
+    HEIGHT = data.height
+    WIDTH = data.width
+    CURRENT = [ snake.coords for snake in data.snakes if data.snake.id == ID ][0]
+
 
     return {
-        'taunt': 'battlesnake-python!'
+        'taunt': get_taunt() 
     }
 
 
@@ -35,10 +45,15 @@ def start():
 def move():
     data = bottle.request.json
 
-    # TODO: Do things with data
+    GRID = SquareGrid(data.width, data.height)
+    GRID.snakes = [ x for snake in data.snakes for x in data.snakes.coords ]
+
+    FOOD = [ food for food in data.food ]
+
+    move = get_move(grid)
 
     return {
-        'move': 'north',
+        'move': move,
         'taunt': 'battlesnake-python!'
     }
 

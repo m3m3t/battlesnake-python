@@ -30,13 +30,11 @@ class SquareGrid:
         results = filter(self.passable, results)
         return results
 
-class GridWithWeights(SquareGrid):
-    def __init__(self, width, height):
-        super().__init__(width, height)
-        self.weights = {}
-    
-    def cost(self, from_node, to_node):
-        return self.weights.get(to_node, 1)
+    def pad_arr(vector, pad_width, iaxis, kwargs):
+        vector[:pad_width[0]] = 0
+        vector[-pad_width[1]:] = 0
+        return vector
+
 
 import heapq
 class PriorityQueue:
@@ -66,7 +64,7 @@ def heuristic(a, b, D, _type='manhattan'):
         return D * (dx*dx + dy*dy)
         
 
-def a_star_search(result, graph, start, goal):
+def a_star_search(result, grid, start, goal):
     frontier = PriorityQueue()
     frontier.put(start, 0)
     came_from = {}
@@ -91,10 +89,10 @@ def a_star_search(result, graph, start, goal):
     result[0] = came_from
     result[1] = cost_so_far
 
-def ping(graph, current, goals):
+def ping(grid, current, goals):
     shared_array_base = _Array(ctypes.c_int, h*w)
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())
-   
+
     (r,c) = graph.shape
 
     h = int(r / 2)
@@ -102,10 +100,19 @@ def ping(graph, current, goals):
 
     subgraph = [(0,h,0,w),(0,h,w,c),(h,r,0,w),(h,r,w,c)]
 
-    processes = [ _Process(target=a_star_search, args=(result, subgraph[i], current, goals[i])) for i in range(0,4) ]
+    #processes = [ _Process(target=a_star_search, args=(result, subgraph[i], current, goals[i])) for i in range(0,4) ]
+    processes = [ _Process(target=a_star_search, args=(result, grid, current, goals)) ]
     for p in processes:
         p.start();
 
     for p in processes:
         p.join();
-    
+  
+    return result
+
+def get_move(data,current, grid):
+
+    food = [ food for food in data.food ]
+    result = ping(grid, current, food) 
+
+
