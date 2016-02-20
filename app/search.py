@@ -1,6 +1,7 @@
 import collections
 import ctypes
 from multiprocessing import Process as _Process, Array as _Array
+import numpy as _np
 
 class SimpleGraph:
     def __init__(self):
