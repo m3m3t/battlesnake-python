@@ -99,7 +99,7 @@ def a_star_search(result, grid, start, goal):
 def ping(grid, current, goals):
     shared_array_base = _Array(ctypes.c_int, 2)
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())
-    current = "{}".format(current)
+    current = tuple(current) 
     """
     (r,c) = graph.shape
 
