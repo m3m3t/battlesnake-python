@@ -112,7 +112,8 @@ def ping(grid, current, goals):
     subgraph = [(0,h,0,w),(0,h,w,c),(h,r,0,w),(h,r,w,c)]
     processes = [ _Process(target=a_star_search, args=(result, subgraph[i], current, goals[i])) for i in range(0,4) ]
     """
-    goal = goals[0] 
+    print goals
+    goal = goals
     processes = [ _Process(target=a_star_search, args=(result, grid, current, goal)) ]
     
     for p in processes:

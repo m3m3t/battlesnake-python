@@ -46,11 +46,10 @@ def move():
     grid.snakes = [ x for x in snakes ]
     
     current = [ snake["coords"] for snake in data["snakes"] if snake["id"] == ID ][0]
-    food = [ food for food in data["food"] ]
     
     print "Current location: ", current[0] 
 
-    move = get_move(grid,current[0], food)
+    move = get_move(grid,current[0], data["food"])
 
     return {
         'move': move,
