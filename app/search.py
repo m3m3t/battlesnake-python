@@ -54,7 +54,8 @@ class PriorityQueue:
     def get(self):
         return heapq.heappop(self.elements)[1]
 
-def heuristic(a, b, D, _type='manhattan'):
+def heuristic(a, b, _type='manhattan'):
+    D=1
     (x1, y1) = a
     (x2, y2) = b
     dx = abs(x1 - x2)
