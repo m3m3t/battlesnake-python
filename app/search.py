@@ -36,6 +36,8 @@ class SquareGrid:
         vector[-pad_width[1]:] = 0
         return vector
 
+    def cost(from_node, to_node):
+        return 1
 
 import heapq
 class PriorityQueue:
