@@ -90,6 +90,7 @@ def a_star_search(result, grid, start, goal):
     result[1] = cost_so_far
 
 def ping(grid, current, goals):
+    """
     shared_array_base = _Array(ctypes.c_int, h*w)
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())
 
@@ -99,9 +100,11 @@ def ping(grid, current, goals):
     w = int(c / 2)
 
     subgraph = [(0,h,0,w),(0,h,w,c),(h,r,0,w),(h,r,w,c)]
-
-    #processes = [ _Process(target=a_star_search, args=(result, subgraph[i], current, goals[i])) for i in range(0,4) ]
-    processes = [ _Process(target=a_star_search, args=(result, grid, current, goals)) ]
+    processes = [ _Process(target=a_star_search, args=(result, subgraph[i], current, goals[i])) for i in range(0,4) ]
+    """
+    goal = goals[0]
+    processes = [ _Process(target=a_star_search, args=(result, grid, current, goal)) ]
+    
     for p in processes:
         p.start();
 
@@ -110,9 +113,9 @@ def ping(grid, current, goals):
   
     return result
 
-def get_move(data,current, grid):
+def get_move(grid, current, food):
 
-    food = [ food for food in data.food ]
     result = ping(grid, current, food) 
-
+    
+    return "north"
 
