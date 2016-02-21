@@ -14,7 +14,7 @@ def static(path):
 
 @bottle.get('/')
 def index():
-    head_url = '%s://%s/static/head.png' % (
+    head_url = '%s://%s/static/head.jpg' % (
         bottle.request.urlparts.scheme,
         bottle.request.urlparts.netloc
     )
@@ -25,7 +25,7 @@ def index():
     }
 
 def get_taunt():
-    return "TODO"
+    return "yomomma"
 
 @bottle.post('/start')
 def start():
