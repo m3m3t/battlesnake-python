@@ -54,6 +54,19 @@ class PriorityQueue:
     def get(self):
         return heapq.heappop(self.elements)[1]
 
+def move(a,b):
+    (x1, y1) = a
+    (x2, y2) = b
+
+    if x1 == x2:
+        if y1 < y2: return "south"
+        else: return "north"
+    else:
+        if x1 < x2: return "east"
+
+    return "west"
+
+
 def heuristic(a, b, _type='manhattan'):
     D=1
     (x1, y1) = a
@@ -108,7 +121,7 @@ def a_star_search(result, grid, start, goal):
     print "Result:", result
 
 def ping(grid, current, goals):
-    shared_array_base = _Array(ctypes.c_int, 3)
+    shared_array_base = _Array(ctypes.c_int, 1*3)
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())
     current = tuple(current) 
     goal = tuple(goals[0])
@@ -130,12 +143,16 @@ def ping(grid, current, goals):
 
     for p in processes:
         p.join();
+    
+    cost = result[2]
+    next_move = (result[0], result[1])
+    move = result(current, next_move) 
   
-    return result
+    return move
 
 def get_move(grid, current, food):
 
-    result = ping(grid, current, food) 
-    
-    return "north"
+    move = ping(grid, current, food) 
+
+    return move
 
