@@ -79,7 +79,7 @@ def reconstruct_path(came_from, start, goal):
         path.append(current)
         path.reverse()
    
-    print "Path:", path
+    #print "Path:", path
     return path[1]
 
 def a_star_search(result, grid, start, goal):
@@ -112,11 +112,8 @@ def a_star_search(result, grid, start, goal):
         result[1] = y
         result[2] = cost_so_far[goal]
     except:
-        print "Came from", came_from
-        print "start", start
-        print "goal", goal
+        print "Error occured"
         
-    print "Result:", result
 
 def ping(grid, current, goals,last_dir):
     current = tuple(current) 
@@ -158,7 +155,7 @@ def get_dir(a,b):
     (x1, y1) = a
     (x2, y2) = b
 
-    print "Going {} to {}".format(a,b)
+    #print "Going {} to {}".format(a,b)
 
     if x1 == x2:
         if y1 < y2: return "south"
@@ -171,6 +168,6 @@ def get_dir(a,b):
 def get_move(grid, current, food, last_dir):
 
     move = ping(grid, current, food, last_dir) 
-    print "Moving to: ", move
+    #print "Moving to: ", move
     return move
 

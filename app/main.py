@@ -54,7 +54,7 @@ def move():
             [x,y] = coords[0]
             grid.snakes.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
     
-    print "Current location: ", current[0] 
+    #print "Current location: ", current[0] 
     food = [ x for x in data["food"] if x not in grid.snakes ]
     move = get_move(grid,current[0], food, CURRENT)
     
