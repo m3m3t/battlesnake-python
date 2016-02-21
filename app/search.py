@@ -127,7 +127,7 @@ def ping(grid, current, goals,last_dir):
     #result = result.reshape(len(goals), 3)
   
     
-    results = [ a_star_search([0,0,0], grid, current, goal) for goal in goals ]
+    result = [ a_star_search([0,0,0], grid, current, goal) for goal in goals ]
 
     """
     processes = [ _Process(target=a_star_search, args=(result[i], grid, current, goal)) for i, goal in enumerate(goals) ]
