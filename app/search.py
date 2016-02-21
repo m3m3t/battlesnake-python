@@ -26,7 +26,7 @@ class SquareGrid:
     def neighbors(self, id):
         (x, y) = id
         results = [(x+1, y), (x, y-1), (x-1, y), (x, y+1)]
-        print "Neighbours:", result
+        print "Neighbours:", results
         if (x + y) % 2 == 0: results.reverse() # aesthetics
         results = filter(self.in_bounds, results)
         results = filter(self.passable, results)
