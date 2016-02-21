@@ -22,6 +22,7 @@ class SquareGrid:
         return 0 < x < self.width and 0 < y < self.height
     
     def passable(self, id):
+        print id, self.snakes
         return id not in self.snakes
     
     def neighbors(self, id):
@@ -114,22 +115,15 @@ def a_star_search(result, grid, start, goal):
     print "Result:", result
 
 def ping(grid, current, goals):
-    shared_array_base = _Array(ctypes.c_int, 1*3)
-    result = _np.ctypeslib.as_array(shared_array_base.get_obj())
     current = tuple(current) 
-    goal = tuple(goals[0]) #[ tuple(x) for x in goals ]
+    goals = [ tuple(x) for x in goals ]
+    shared_array_base = _Array(ctypes.c_int, len(goals)*3)
+    result = _np.ctypeslib.as_array(shared_array_base.get_obj())
+    result = result.reshape(len(goals), 3)
     
-    """
-    (r,c) = graph.shape
-
-    h = int(r / 2)
-    w = int(c / 2)
-
-    subgraph = [(0,h,0,w),(0,h,w,c),(h,r,0,w),(h,r,w,c)]
-    processes = [ _Process(target=a_star_search, args=(result, subgraph[i], current, goals[i])) for i in range(0,4) ]
-    """
-    print "Food:", goals
-    processes = [ _Process(target=a_star_search, args=(result, grid, current, goal)) ]
+    processes = [ _Process(target=a_star_search, args=(result[i], grid, current, goal)) for i, goal in enuemrate(goals) ]
+    
+    #processes = [ _Process(target=a_star_search, args=(result, grid, current, goal)) ]
     
     for p in processes:
         p.start();
