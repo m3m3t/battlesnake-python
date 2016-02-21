@@ -158,9 +158,9 @@ def get_dir(a,b):
 
     return "west"
 
-def get_move(grid, current, food):
+def get_move(grid, current, food, last_dir):
 
-    move = ping(grid, current, food) 
+    move = ping(grid, current, food, last_dir) 
     print "Moving to: ", move
     return move
 
