@@ -18,7 +18,8 @@ class SquareGrid:
     
     def in_bounds(self, id):
         (x, y) = id
-        return 0 <= x < self.width and 0 <= y < self.height
+        #return 0 <= x < self.width and 0 <= y < self.height
+        return 0 < x < self.width and 0 < y < self.height
     
     def passable(self, id):
         return id not in self.snakes
@@ -26,10 +27,10 @@ class SquareGrid:
     def neighbors(self, id):
         (x, y) = id
         results = [(x+1, y), (x, y-1), (x-1, y), (x, y+1)]
-        print "Neighbours:", results
         if (x + y) % 2 == 0: results.reverse() # aesthetics
         results = filter(self.in_bounds, results)
         results = filter(self.passable, results)
+        print "Neighbours:", results
         return results
 
     def pad_arr(vector, pad_width, iaxis, kwargs):
