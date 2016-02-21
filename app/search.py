@@ -30,7 +30,6 @@ class SquareGrid:
         if (x + y) % 2 == 0: results.reverse() # aesthetics
         results = filter(self.in_bounds, results)
         results = filter(self.passable, results)
-        #print "Neighbours:", results
         return results
 
     def pad_arr(vector, pad_width, iaxis, kwargs):
@@ -40,7 +39,7 @@ class SquareGrid:
 
     def cost(self, from_node, to_node):
         if self.passable(to_node): return 1
-        return 100
+        return 1000
 
 import heapq
 class PriorityQueue:
