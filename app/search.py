@@ -143,8 +143,9 @@ def ping(grid, current, goals,last_dir):
             cost = x[2]
             index = i
 
-    print cost
-    print index
+    if index == -1:
+        return last_dir
+
     next_move = (result[index][0], result[index][1]) 
     move = get_dir(current, next_move) 
   
