@@ -154,6 +154,6 @@ def get_dir(a,b):
 def get_move(grid, current, food):
 
     move = ping(grid, current, food) 
-
+    print "Moving to: ", move
     return move
 
