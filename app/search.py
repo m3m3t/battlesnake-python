@@ -101,7 +101,7 @@ def a_star_search(result, grid, start, goal):
                 came_from[next] = current
  
 
-    print "Path:", reconstruct_path(came_from, current, goal)    
+    print "Path:", reconstruct_path(came_from, start, goal)    
 
 def ping(grid, current, goals):
     shared_array_base = _Array(ctypes.c_int, 3)
