@@ -22,7 +22,6 @@ class SquareGrid:
         return 0 < x < self.width and 0 < y < self.height
     
     def passable(self, id):
-        print id, self.snakes
         return id not in self.snakes
     
     def neighbors(self, id):
@@ -139,7 +138,7 @@ def ping(grid, current, goals):
             cost = x[2]
             index = i
 
-    next_move = tuple(index) 
+    next_move = tuple(result[index]) 
     move = get_dir(current, next_move) 
   
     return move
