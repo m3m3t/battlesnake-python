@@ -112,7 +112,7 @@ def a_star_search(result, grid, start, goal):
     result[2] = cost_so_far[goal]
     print "Result:", result
 
-def ping(grid, current, goals):
+def ping(grid, current, goals,last_dir):
     current = tuple(current) 
     goals = [ tuple(x) for x in goals ]
     shared_array_base = _Array(ctypes.c_int, len(goals)*3)

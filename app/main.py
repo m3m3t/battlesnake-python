@@ -6,6 +6,7 @@ from snake import Snake
 ID="3fc52e17-4dcf-48df-b2b7-c5f69838e92f"
 CURRENT = None
 
+
 @bottle.route('/static/<path:path>')
 def static(path):
     return bottle.static_file(path, root='static/')
@@ -53,9 +54,8 @@ def move():
             grid.snakes.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
     
     print "Current location: ", current[0] 
-    print grid.snakes
-    move = get_move(grid,current[0], data["food"])
-
+    move = get_move(grid,current[0], data["food"],CURRENT)
+    CURRENT=move
     return {
         'move': move,
         'taunt': 'yomomma'
