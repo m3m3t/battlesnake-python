@@ -106,13 +106,16 @@ def a_star_search(result, grid, start, goal):
                 came_from[next] = current
  
 
-    print "Came from", came_from
-    print "start", start
-    print "goal", goal
-    (x,y) = reconstruct_path(came_from, start, goal)
-    result[0] = x
-    result[1] = y
-    result[2] = cost_so_far[goal]
+    try:
+        (x,y) = reconstruct_path(came_from, start, goal)
+        result[0] = x
+        result[1] = y
+        result[2] = cost_so_far[goal]
+    except:
+        print "Came from", came_from
+        print "start", start
+        print "goal", goal
+        
     print "Result:", result
 
 def ping(grid, current, goals,last_dir):
