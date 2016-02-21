@@ -72,12 +72,14 @@ def heuristic(a, b, _type='manhattan'):
 
 def reconstruct_path(came_from, start, goal):
     current = goal
-    path = []
+    path = [current]
     while current != start:
         current = came_from[current]
         path.append(current)
         path.reverse()
-    return path[0]
+   
+    print "Path:", path
+    return path[1]
 
 def a_star_search(result, grid, start, goal):
     
