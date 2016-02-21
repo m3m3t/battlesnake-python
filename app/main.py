@@ -46,7 +46,7 @@ def move():
     grid.snakes = [ tuple(x) for x in snakes ]
 
     for i, coords in enumerate(snakes):
-        [x,y] = coord[0]
+        [x,y] = coords[0]
         grid.snakes.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
     
     current = [ snake["coords"] for snake in data["snakes"] if snake["id"] == ID ][0]
