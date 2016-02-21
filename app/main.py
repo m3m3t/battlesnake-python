@@ -53,7 +53,7 @@ def move():
             grid.snakes.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
     
     print "Current location: ", current[0] 
-
+    print grid.snakes
     move = get_move(grid,current[0], data["food"])
 
     return {

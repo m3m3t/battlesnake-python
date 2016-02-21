@@ -130,10 +130,10 @@ def ping(grid, current, goals):
         p.join();
     
     print "Results:", result
-    cost = result[0][2] 
-    index = 0
+    cost = 1000000000000000000000 #result[0][2] 
+    index = -1
     for i,x in enumerate(result):
-        if x[2] < cost:
+        if x[2] < cost and x[2] > 0:
             cost = x[2]
             index = i
 
