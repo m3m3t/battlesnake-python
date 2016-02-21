@@ -50,7 +50,7 @@ def move():
     
     current = [ snake["coords"] for snake in data["snakes"] if snake["id"] == ID ][0]
     for i, coords in enumerate(snakes):
-        if coords[0] != current[0]:
+        if coords[0] != current[0] and not in data["food"]:
             [x,y] = coords[0]
             grid.snakes.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
     

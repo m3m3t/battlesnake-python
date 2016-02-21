@@ -117,19 +117,17 @@ def a_star_search(result, grid, start, goal):
         print "goal", goal
         
     print "Result:", result
-    return result
 
 def ping(grid, current, goals,last_dir):
     current = tuple(current) 
     goals = [ tuple(x) for x in goals ]
-    #shared_array_base = _Array(ctypes.c_int, len(goals)*3)
-    #result = _np.ctypeslib.as_array(shared_array_base.get_obj())
-    #result = result.reshape(len(goals), 3)
+    shared_array_base = _Array(ctypes.c_int, len(goals)*3)
+    result = _np.ctypeslib.as_array(shared_array_base.get_obj())
+    result = result.reshape(len(goals), 3)
   
     
-    result = [ a_star_search([0,0,0], grid, current, goal) for goal in goals ]
+    #result = [ a_star_search([0,0,0], grid, current, goal) for goal in goals ]
 
-    """
     processes = [ _Process(target=a_star_search, args=(result[i], grid, current, goal)) for i, goal in enumerate(goals) ]
     
     #processes = [ _Process(target=a_star_search, args=(result, grid, current, goal)) ]
@@ -139,7 +137,7 @@ def ping(grid, current, goals,last_dir):
 
     for p in processes:
         p.join();
-    """
+    
     print "Results:", result
     cost = 1000000000000000000000 #result[0][2] 
     index = -1
