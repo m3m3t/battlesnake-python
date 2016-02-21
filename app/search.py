@@ -54,17 +54,6 @@ class PriorityQueue:
     def get(self):
         return heapq.heappop(self.elements)[1]
 
-def move(a,b):
-    (x1, y1) = a
-    (x2, y2) = b
-
-    if x1 == x2:
-        if y1 < y2: return "south"
-        else: return "north"
-    else:
-        if x1 < x2: return "east"
-
-    return "west"
 
 
 def heuristic(a, b, _type='manhattan'):
@@ -146,9 +135,21 @@ def ping(grid, current, goals):
     
     cost = result[2]
     next_move = (result[0], result[1])
-    move = result(current, next_move) 
+    move = get_dir(current, next_move) 
   
     return move
+
+def get_dir(a,b):
+    (x1, y1) = a
+    (x2, y2) = b
+
+    if x1 == x2:
+        if y1 < y2: return "south"
+        else: return "north"
+    else:
+        if x1 < x2: return "east"
+
+    return "west"
 
 def get_move(grid, current, food):
 
