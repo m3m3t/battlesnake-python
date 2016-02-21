@@ -12,8 +12,8 @@ class SimpleGraph:
 
 class SquareGrid:
     def __init__(self, width, height):
-        self.width = width
-        self.height = height
+        self.width = width-1
+        self.height = height-1
         self.snakes = [] #list of x,y coordinates
     
     def in_bounds(self, id):
@@ -142,6 +142,8 @@ def ping(grid, current, goals):
 def get_dir(a,b):
     (x1, y1) = a
     (x2, y2) = b
+
+    print "Going {} to {}".format(a,b)
 
     if x1 == x2:
         if y1 < y2: return "south"
