@@ -121,7 +121,7 @@ def ping(grid, current, goals):
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())
     result = result.reshape(len(goals), 3)
     
-    processes = [ _Process(target=a_star_search, args=(result[i], grid, current, goal)) for i, goal in enuemrate(goals) ]
+    processes = [ _Process(target=a_star_search, args=(result[i], grid, current, goal)) for i, goal in enumerate(goals) ]
     
     #processes = [ _Process(target=a_star_search, args=(result, grid, current, goal)) ]
     
