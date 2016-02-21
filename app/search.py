@@ -26,6 +26,7 @@ class SquareGrid:
     def neighbors(self, id):
         (x, y) = id
         results = [(x+1, y), (x, y-1), (x-1, y), (x, y+1)]
+        print "Neighbours:", result
         if (x + y) % 2 == 0: results.reverse() # aesthetics
         results = filter(self.in_bounds, results)
         results = filter(self.passable, results)
@@ -115,7 +116,7 @@ def ping(grid, current, goals):
     shared_array_base = _Array(ctypes.c_int, 1*3)
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())
     current = tuple(current) 
-    goal = tuple(goals[0])
+    goal = goals[0] #tuple(goals[0])
     
     """
     (r,c) = graph.shape
