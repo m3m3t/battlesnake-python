@@ -117,7 +117,7 @@ def ping(grid, current, goals):
     shared_array_base = _Array(ctypes.c_int, 1*3)
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())
     current = tuple(current) 
-    goal = goals[0] #tuple(goals[0])
+    goal = tuple(goals[0]) #[ tuple(x) for x in goals ]
     
     """
     (r,c) = graph.shape
