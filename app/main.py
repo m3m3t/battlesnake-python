@@ -40,6 +40,7 @@ def start():
 
 @bottle.post('/move')
 def move():
+    global CURRENT
     data = bottle.request.json
 
     grid = SquareGrid(data["height"], data["width"])
@@ -54,8 +55,10 @@ def move():
             grid.snakes.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
     
     print "Current location: ", current[0] 
-    move = get_move(grid,current[0], data["food"],CURRENT)
-    CURRENT=move
+    move = get_move(grid,current[0], data["food"], CURRENT)
+    
+    CURRENT = move
+    
     return {
         'move': move,
         'taunt': 'yomomma'
