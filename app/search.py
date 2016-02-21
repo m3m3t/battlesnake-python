@@ -31,7 +31,7 @@ class SquareGrid:
         if (x + y) % 2 == 0: results.reverse() # aesthetics
         results = filter(self.in_bounds, results)
         results = filter(self.passable, results)
-        print "Neighbours:", results
+        #print "Neighbours:", results
         return results
 
     def pad_arr(vector, pad_width, iaxis, kwargs):
@@ -132,8 +132,14 @@ def ping(grid, current, goals):
         p.join();
     
     print "Results:", result
-    cost = result[0][2]
-    next_move = (result[0][0], result[0][1])
+    cost = result[0][2] 
+    index = 0
+    for i,x in enumerate(result):
+        if x[2] < cost:
+            cost = x[2]
+            index = i
+
+    next_move = tuple(index) 
     move = get_dir(current, next_move) 
   
     return move
