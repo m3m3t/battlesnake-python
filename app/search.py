@@ -131,8 +131,9 @@ def ping(grid, current, goals):
     for p in processes:
         p.join();
     
-    cost = result[2]
-    next_move = (result[0], result[1])
+    print "Results:", result
+    cost = result[0][2]
+    next_move = (result[0][0], result[0][1])
     move = get_dir(current, next_move) 
   
     return move
