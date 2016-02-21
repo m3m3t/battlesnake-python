@@ -70,12 +70,12 @@ def heuristic(a, b, _type='manhattan'):
 
 def reconstruct_path(came_from, start, goal):
     current = goal
-    path = [current]
+    path = []
     while current != start:
         current = came_from[current]
         path.append(current)
         path.reverse()
-    return path
+    return path[0]
 
 def a_star_search(result, grid, start, goal):
     
@@ -101,7 +101,11 @@ def a_star_search(result, grid, start, goal):
                 came_from[next] = current
  
 
-    print "Path:", reconstruct_path(came_from, start, goal)    
+    (x,y) = reconstruct_path(came_from, start, goal)
+    result[0] = x
+    result[1] = y
+    result[2] = cost_so_far[goal]
+    print "Result:", result
 
 def ping(grid, current, goals):
     shared_array_base = _Array(ctypes.c_int, 3)
