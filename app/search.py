@@ -12,8 +12,8 @@ class SimpleGraph:
 
 class SquareGrid:
     def __init__(self, width, height):
-        self.width = width-1
-        self.height = height-1
+        self.width = width
+        self.height = height
         self.snakes = [] #list of x,y coordinates
     
     def in_bounds(self, id):
