@@ -37,6 +37,24 @@ def start():
         'taunt': get_taunt() 
     }
 
+def last_dir(data):
+    snakes = data["snakes"]
+    for snake in snakes:
+        if snake["id"] == ID:
+            coords = snake["coords"]
+            direction = [coords[0][0] - coords[1][0], coords[0][1] - coords [1][1]]
+
+    if direction[0]!=0:
+        if direction[0]>0:
+            return "east"
+        else:
+            return "west"
+    else:
+        if direction[1]>0:
+            return "south"
+        else:
+            return "north"
+
 
 @bottle.post('/move')
 def move():
@@ -55,9 +73,12 @@ def move():
             grid.snakes.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
     
     #print "Current location: ", current[0] 
+
     food = [ x for x in data["food"] if x not in grid.snakes ]
     move = get_move(grid,current[0], food, CURRENT)
-    
+    last_direction = last_dir(data) 
+    print "last_dir check: ",last_direction
+
     CURRENT = move
     
     return {
