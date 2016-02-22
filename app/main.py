@@ -75,9 +75,7 @@ def move():
     #print "Current location: ", current[0] 
 
     food = [ x for x in data["food"] if x not in grid.snakes ]
-    move = get_move(grid,current[0], food, CURRENT)
-    last_direction = last_dir(data) 
-    print "last_dir check: ",last_direction
+    move = get_move(grid,current[0], food, last_dir(data))
 
     CURRENT = move
     
