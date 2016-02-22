@@ -171,11 +171,11 @@ def get_move(grid, current, food, last_dir):
     #print "Moving to: ", move
     if move == "east" and last_dir == "west":
         move = last_dir
-    else if move == "west" and last_dir == "east":
+    elif move == "west" and last_dir == "east":
         move = last_dir
-    else if move == "south" and last_dir == "north":
+    elif move == "south" and last_dir == "north":
         move = last_dir
-    else if move == "north" and last_dir == "south":
+    elif move == "north" and last_dir == "south":
         move = last_dir
     return move
 
