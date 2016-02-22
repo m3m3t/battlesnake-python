@@ -77,7 +77,7 @@ def move():
     food = [ x for x in data["food"] if x not in grid.snakes ]
     move = get_move(grid,current[0], food, last_direction)
 
-    
+    print "attempting: ",move
     if move == "east" and last_direction == "west":
         move = last_direction
     elif move == "west" and last_direction == "east":
