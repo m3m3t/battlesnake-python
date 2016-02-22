@@ -73,12 +73,22 @@ def move():
             grid.snakes.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
     
     #print "Current location: ", current[0] 
-
+    last_direction = last_dir(data)
     food = [ x for x in data["food"] if x not in grid.snakes ]
-    move = get_move(grid,current[0], food, last_dir(data))
+    move = get_move(grid,current[0], food, last_direction)
 
-    CURRENT = move
     
+    if move == "east" and last_direction == "west":
+        move = last_direction
+    elif move == "west" and last_direction == "east":
+        move = last_direction
+    elif move == "south" and last_direction == "north":
+        move = last_direction
+    elif move == "north" and last_direction == "south":
+        move = last_direction
+    CURRENT = move
+    print "last direction",last_direction
+    print "moving to: ",move 
     return {
         'move': move,
         'taunt': 'yomomma'

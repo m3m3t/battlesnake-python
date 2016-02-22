@@ -168,19 +168,7 @@ def get_dir(a,b):
 def get_move(grid, current, food, last_dir):
 
     move = ping(grid, current, food, last_dir) 
-    print "moving to ",move
     #print "Moving to: ", move
-    """
-    if move == "east" and last_dir == "west":
-        move = last_dir
-    elif move == "west" and last_dir == "east":
-        move = last_dir
-    elif move == "south" and last_dir == "north":
-        move = last_dir
-    elif move == "north" and last_dir == "south":
-        move = last_dir
-    """
-    print "last_dir: ",last_dir
     #print "final move: ",move
     return move
 
