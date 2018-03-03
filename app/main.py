@@ -96,7 +96,7 @@ def extend_head(snake, me):
     if snake["id"] == me.myid:
         me.head = head
         me.tail = coords[-1] 
-        me.chase.append(coorda[-1])
+        me.chase.append(coords[-1])
         return coords
 
     me.chase.append(coords[-1]) 
