@@ -58,7 +58,8 @@ def start():
 def move():
     data = bottle.request.json
     
-    my_id = data["you"]
+    my_id = data["you"]["id"]
+    my_len = data["you"]["length"]
     board_width = data['width']
     board_height = data['height']
     # TODO: Do things with data
