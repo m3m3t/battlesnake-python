@@ -93,7 +93,7 @@ def reconstruct_path(grid, came_from, start, goal):
     #if len(next_move) == 0:
     #    return valid[0]
     
-    return path[0] 
+    return path[1] 
 
 def a_star_search(result, grid, start, goal):
     frontier = PriorityQueue()
@@ -132,7 +132,6 @@ def a_star_search(result, grid, start, goal):
 
 
 def ping(grid, curr_pos, goals):
-    print("goals", len(goals), goals)
 
     shared_array_base = _Array(ctypes.c_int, len(goals)*3)
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())

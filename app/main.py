@@ -79,8 +79,8 @@ def move():
     food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
     food = food[:3]
 
-    if len(food) < 3:
-        food.extend([(1,1),(board_width-1,board_height-1)])
+    if len(food) == 0:
+        food.append((1,1)) #TODO: chase tail
     
     #Test if there is no food
     move = me.gather_food(food, blockades)
