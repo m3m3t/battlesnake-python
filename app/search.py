@@ -86,9 +86,10 @@ def reconstruct_path(grid, came_from, start, goal):
         path.reverse() 
         next_move = path[1]
     except:
-        print "No path found"
         valid = grid.neighbors(start)
-        print "valid=",valid
+        if len(valid) == 0:
+            return (0,0), -2
+
         return random.choice(valid),-1
     
     return next_move, goal
@@ -97,7 +98,7 @@ def a_star_search(result, grid, start, goal):
     frontier = PriorityQueue()
     frontier.put(start, 0)
     came_from = {}
-    cost_so_far = {-1: MAX_COST}
+    cost_so_far = {-1: MAX_COST, -2: MAX_COST+1}
     came_from[start] = None
     cost_so_far[start] = 0
     
@@ -122,7 +123,6 @@ def a_star_search(result, grid, start, goal):
     result[0] = x
     result[1] = y
     result[2] = cost 
-        
 
 
 def ping(grid, curr_pos, goals):
@@ -145,6 +145,9 @@ def ping(grid, curr_pos, goals):
         if x[2] < cost and x[2] > 0:  #and (x[0],x[1] in valid):
             cost = x[2]
             index = i
+    
+    if cost == MAX_COST+1:
+        print "!!!! Worst case scenerio"
 
     next_move = (result[index][0], result[index][1]) 
     move = get_dir(curr_pos, next_move) 

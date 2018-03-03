@@ -96,11 +96,11 @@ def extend_head(snake, me):
     if snake["id"] == me.myid:
         me.head = head
         me.tail = coords[-1] 
-        me.chase.append(coords[-1])
+        #me.chase.append(coords[-1])
         return coords
 
     me.chase.append(coords[-1]) 
-    #coords.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
+    coords.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
     return coords
 
 def manhattan(xy):
