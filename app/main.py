@@ -77,7 +77,7 @@ def move():
     if my_health < 75 or my_len < 5:
         move = me.gather_food(food[:3], blockades)
     else:
-        blockades.extend(food)
+        #blockades.extend(food)
         move = me.go_chase(blockades)
 
     #directions = ['up', 'down', 'left', 'right']
