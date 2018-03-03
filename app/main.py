@@ -2,7 +2,9 @@ import bottle
 import os
 import random
 
-
+class Strategy(enum):
+    SCARED
+    HUNGRY
 
 @bottle.route('/')
 def static():
@@ -38,14 +40,28 @@ def start():
 @bottle.post('/move')
 def move():
     data = bottle.request.json
+    
+    my_id = data["you"]
+    board_width = data['width']
+    board_height = data['height']
+    me = Snake(my_id, board_height, board_width)
+    
+    blockades =  map(lambda x: extend_head(x,me), data["snakes"])
+    blockades = blockades[0]
+    
+    food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
+    food = food[:3]
+    
+    move = me.gather_food(food, blockades)
+    #move = me.run_free(food, blockades)
 
     # TODO: Do things with data
     
     directions = ['up', 'down', 'left', 'right']
-    direction = random.choice(directions)
-    print direction
+    move = random.choice(directions)
+    print move 
     return {
-        'move': direction,
+        'move': move,
         'taunt': 'battlesnake-python!'
     }
 
