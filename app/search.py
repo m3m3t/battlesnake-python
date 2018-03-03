@@ -1,175 +1,147 @@
-import collections
-import ctypes
-from multiprocessing import Process as _Process, Array as _Array
-import numpy as _np
-import random
+from __future__ import print_function
+from Queue import PriorityQueue, Queue
 
-MAX_COST = 100000
-
-class SimpleGraph:
-    def __init__(self):
-        self.edges = {}
-    
-    def neighbors(self, xy):
-        return self.edges[xy]
-
-class SquareGrid:
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-        self.obstacles = [] #list of x,y coordinates
-    
-    def in_bounds(self, xy):
-        (x, y) = xy
-        return 0 <= x <= self.width-1 and 0 <= y <= self.height-1
-    
-    def passable(self, xy):
-        #print "Obstacles: ", xy, self.obstacles
-        return xy not in self.obstacles
-    
-    def neighbors(self, xy):
-        (x, y) = xy
-        results = [(x+1, y), (x, y-1), (x-1, y), (x, y+1)]
-        #print "Neighbours at ", results
-        results = filter(self.in_bounds, results)
-        #print "Neighbours that are inbounds: ", results
-        results = filter(self.passable, results)
-        #print "Neighbours that {} can go to {}".format(xy, results)
-        return results
-
-    def pad_arr(vector, pad_width, iaxis, kwargs):
-        vector[:pad_width[0]] = 0
-        vector[-pad_width[1]:] = 0
-        return vector
-
-    def cost(self, from_node, to_node):
-        if self.passable(to_node): return 1
-        return MAX_COST
-
-import heapq
-class PriorityQueue:
-    def __init__(self):
-        self.elements = []
-    
-    def empty(self):
-        return len(self.elements) == 0
-    
-    def put(self, item, priority):
-        heapq.heappush(self.elements, (priority, item))
-    
-    def get(self):
-        return heapq.heappop(self.elements)[1]
-
-
-
-def heuristic(a, b, _type='manhattan'):
-    D=1
-    (x1, y1) = a
-    (x2, y2) = b
-    dx = abs(x1 - x2)
-    dy = abs(y1 - y2)
-    if _type == 'manhattan':
-        return D * (dx + dy)
-    elif _type == 'diagonal':
-        D2 = 1
-        return D * (dx + dy) + (D2 - 2 * D) * min(dx, dy) 
-    elif _type == 'euclidean':
-        return D * (dx*dx + dy*dy)
-
-def reconstruct_path(grid, came_from, start, goal):
-    current = goal
-    path = [current]
+INF = 100000
+def in_dict(dictionary, key):
     try:
-        while current != start:
-            current = came_from[current]
-            path.append(current)
-        path.reverse() 
-        next_move = path[1]
-    except:
-        valid = grid.neighbors(start)
-        if len(valid) == 0:
-            return (0,0), -2
-
-        return random.choice(valid),-1
-    
-    return next_move, goal
-
-def a_star_search(result, grid, start, goal):
-    frontier = PriorityQueue()
-    frontier.put(start, 0)
-    came_from = {}
-    cost_so_far = {-1: MAX_COST, -2: MAX_COST+1}
-    came_from[start] = None
-    cost_so_far[start] = 0
-    
-    while not frontier.empty():
-        current = frontier.get()
-        
-        if current == goal:
-            #print "At goal, break"
-            break
-        
-        for next in grid.neighbors(current):
-            new_cost = cost_so_far[current] + grid.cost(current, next)
-            if next not in cost_so_far or new_cost < cost_so_far[next]:
-                cost_so_far[next] = new_cost
-                priority = new_cost + heuristic(goal,  next)
-                frontier.put(next, priority)
-                came_from[next] = current
- 
-
-    (x,y),goal_idx = reconstruct_path(grid, came_from, start, goal)
-    cost = cost_so_far[goal_idx]
-    result[0] = x
-    result[1] = y
-    result[2] = cost 
-
-
-def ping(grid, curr_pos, goals):
-
-    shared_array_base = _Array(ctypes.c_int, len(goals)*3)
-    result = _np.ctypeslib.as_array(shared_array_base.get_obj())
-    result = result.reshape(len(goals), 3)
-  
-    processes = [ _Process(target=a_star_search, args=(result[i], grid, curr_pos, goal)) for i, goal in enumerate(goals) ]
-    
-    for p in processes:
-        p.start();
-
-    for p in processes:
-        p.join();
-    
-    cost = MAX_COST 
-    index = -1
-    for i,x in enumerate(result):
-        if x[2] < cost and x[2] > 0:  #and (x[0],x[1] in valid):
-            cost = x[2]
-            index = i
-    
-    if cost == MAX_COST+1:
-        print "!!!! Worst case scenerio"
-
-    next_move = (result[index][0], result[index][1]) 
-    move = get_dir(curr_pos, next_move) 
-  
-    return move
-
-def get_dir(a,b):
-    (x1, y1) = a
-    (x2, y2) = b
-
-    print "Going {} to {}".format(a,b)
-
-    if x1 == x2:
-        if y1 < y2: return "down"
-        else: return "up"
+        dictionary[key]
+    except KeyError:
+        return False
     else:
-        if x1 < x2: return "right"
+        return True
+def get_neighbours(pos, board_size):
+    (x,y) = pos
+    (width,height) = board_size
+    x0 = x-1
+    x1 = x+1
+    y0 = y-1
+    y1 = y+1
+    neighbours = []
+    if x0 >= 0:
+        neighbours.append((x0,y))
+    if y0 >= 0:
+        neighbours.append((x,y0))
+    if x1 < width:
+        neighbours.append((x1,y))
+    if y1 < height:
+        neighbours.append((x,y1))
+    return neighbours
 
-    return "left"
 
-def get_move(grid, curr_pos, food):
-    move = ping(grid, curr_pos, food) 
-    print "Moving to: ", move
-    return move
+def manhattan_dist(src, dest):
+    (x1,y1) = src
+    (x2,y2) = dest
+    return abs(x2-x1) + abs(y2-y1)
+
+#this is used to modify PQ priorities from by accessing object ref through dictionary
+#honestly don't know if this screws with the priority queue at all, but it seems to be working
+#well so far
+class Container:
+    def __init__(self, value):
+        self.value = value
+    def __lt__(self,other):
+        return self.value < other.value
+
+class AStar:
+
+
+    def __init__(self, size, pos):
+        (self.width, self.height) = size;
+        self.pos = pos;
+    
+    #currently uses dicts in a few places where it should use sets
+    def search(self, goal, obstacles):
+        evaluated = {}
+
+        open_set_pq = PriorityQueue()
+        open_set_pq.put((Container(0), self.pos)) 
+        open_set = {}
+        open_set[self.pos] = 0
+        #cost of getting to these nodes from start
+        f_score = {}
+        f_score[self.pos] = 0
+        g_score = {}
+        came_from = {}
+        
+
+        for x in range(self.width):
+            for y in range(self.height):
+                pos = (x,y)
+                f_score[pos] = Container(INF)
+                came_from[pos] = None
+                g_score[pos] = Container(INF)
+
+        g_score[self.pos] = Container(self.heuristic(self.pos, goal))
+        #print("finding path {} --> {}".format(self.pos,goal))
+        i = 0
+        while not open_set_pq.empty():
+            i += 1
+            (current_score, current_pos) = open_set_pq.get()
+
+            #print("current: ", current_pos)
+            if current_pos == goal:
+                print("Num_iterations: ",i)
+                return self.reconstruct_path(came_from, current_pos)
+             
+            evaluated[current_pos] = current_score.value
+            neighbours = self.get_neighbours(current_pos)
+            for neighbour in neighbours:
+                if in_dict(evaluated,neighbour):
+                    continue
+                elif neighbour in obstacles:
+                    continue
+                elif not in_dict(g_score,neighbour):
+                    continue
+
+
+                if not in_dict(open_set, neighbour):
+                    open_set[neighbour] = f_score.get(neighbour)
+                    open_set_pq.put((f_score.get(neighbour),neighbour))
+                    
+                tentative_g_score = g_score[current_pos].value + 1
+                if tentative_g_score >= g_score[neighbour].value:
+                    continue
+
+                came_from[neighbour] = current_pos
+                g_score[neighbour].value = tentative_g_score
+                f_score[neighbour].value = tentative_g_score + self.heuristic(neighbour,goal)
+                open_set_pq.put((f_score[neighbour],neighbour))
+
+
+    def reconstruct_path(self, came_from, current):
+        total_path = [current]
+        while True:
+            current = came_from[current]
+            if(current == None):
+                break
+            total_path.append(current)
+        return total_path
+
+        
+    def get_neighbours(self, pos):
+        return get_neighbours(pos, (self.width,self.height))
+
+    def heuristic(self,start, end):
+        return manhattan_dist(start,end)
+
+def flood_fill(pos, board_size, obstacles):
+    found =set()
+    q = Queue()
+    found.add(pos)
+    q.put(pos)
+    
+    while not q.empty():
+        pos = q.get()
+        neighbours = get_neighbours(pos, board_size)
+        for neighbour in neighbours:
+            if neighbour not in found and neighbour not in obstacles:
+                found.add(neighbour)
+                q.put(neighbour)
+
+    return len(found)
+
+if __name__=='__main__':
+    search = AStar(10,(0,0),{})
+    print(search.search((5,5)))
+
 
