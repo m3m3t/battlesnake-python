@@ -66,6 +66,7 @@ def move():
     me = Snake(my_id, board_height, board_width)
     
     blockades =  map(lambda x: extend_head(x,me), data["snakes"]["data"])
+    blockades = [ y for x in blockades for y in x ]
     print blockades
 
     #TODO: strategy based on:
