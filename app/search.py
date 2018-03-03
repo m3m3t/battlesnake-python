@@ -145,7 +145,9 @@ def ping(grid, curr_pos, goals):
         if x[2] < cost and x[2] > 0:  #and (x[0],x[1] in valid):
             cost = x[2]
             index = i
-  
+    if cost == MAX_COST:
+        return "same"
+
     next_move = (result[index][0], result[index][1]) 
     move = get_dir(curr_pos, next_move) 
   

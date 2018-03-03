@@ -58,6 +58,7 @@ def move():
     my_id = data["you"]["id"]
     my_len = data["you"]["length"]
     my_health = data["you"]["health"]
+    
     board_food = len(data["food"]["data"])
     board_width = data['width']
     board_height = data['height']
@@ -81,17 +82,15 @@ def move():
     if my_health < 75 or my_len < 5:
         food = [ (c["x"],c["y"]) for c in data["food"]["data"] ] 
         food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
-        food = food[:1]
+        food = food[:2]
     
     food.append(me.tail) #chase tail
     food.append((board_width/2,board_height/2)) #TODO: Randomly select spot on the boards 
     
     move = me.gather_food(food, blockades)
-
     
     #directions = ['up', 'down', 'left', 'right']
     #move = random.choice(directions)
-    print move 
     return {
         'move': move,
         'taunt': 'battlesnake-python!'
