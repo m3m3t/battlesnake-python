@@ -108,7 +108,7 @@ def extend_head(snake, me):
     #print "head = ( {}, {} )".format(x,y)
     if snake["id"] == me.myid:
         me.head = head
-        me.tail = tail 
+        me.tail = coords[-1] 
         return coords
     
     coords.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
