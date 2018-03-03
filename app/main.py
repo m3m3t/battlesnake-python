@@ -60,14 +60,18 @@ def move():
     
     my_id = data["you"]["id"]
     my_len = data["you"]["length"]
+    my_health = data["you"]["health"]
+    board_food = len(data["food"]["data"])
     board_width = data['width']
     board_height = data['height']
+   
+    print "health={}  len={}   food={}".format(my_health, my_len, board_food) 
+
     # TODO: Do things with data
     me = Snake(my_id, board_height, board_width)
     
     blockades =  map(lambda x: extend_head(x,me), data["snakes"]["data"])
     blockades = [ y for x in blockades for y in x ]
-    print blockades
 
     #TODO: strategy based on:
     # Number of snakes still on the board
