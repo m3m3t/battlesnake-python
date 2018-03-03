@@ -2,6 +2,7 @@ import collections
 import ctypes
 from multiprocessing import Process as _Process, Array as _Array
 import numpy as _np
+import random
 
 MAX_COST = 100000
 
@@ -79,16 +80,15 @@ def heuristic(a, b, _type='manhattan'):
 def reconstruct_path(grid, came_from, start, goal):
     current = goal
     path = [current]
-    while current != start and current != None:
-        current = came_from[current]
-        path.append(current)
-    path.reverse() 
-    
-    #valid = grid.neighbors(start)
-    #print "Valid moves = ", valid
-    #next_move = [ p for p in path[1:] if p in valid ]
-    #if len(next_move) == 0:
-    #    return valid[0]
+    try:
+        while current != start:
+            current = came_from[current]
+            path.append(current)
+        path.reverse() 
+    except:
+        print "No path found"
+        valid = grid.neighbors(start)
+        return random.choice(valid)
     
     return path[1] 
 
