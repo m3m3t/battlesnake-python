@@ -124,13 +124,12 @@ def a_star_search(result, grid, start, goal):
     try:
         (x,y) = reconstruct_path(grid, came_from, start, goal)
     except Exception as e:
-        print "Error occured in reconstruct path"
-        print e 
+        print "Error occured in reconstruct path: ",e
+    
     try:
         cost = cost_so_far[goal]
     except Exception as e:
-        print "Error occured in cost_so_far"
-        print e
+        print "Error occured in cost_so_far: ",e
 
     result[0] = x
     result[1] = y
@@ -139,7 +138,8 @@ def a_star_search(result, grid, start, goal):
 
 
 def ping(grid, curr_pos, goals):
-    
+    print("goals", len(goals), goals)
+
     shared_array_base = _Array(ctypes.c_int, len(goals)*3)
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())
     result = result.reshape(len(goals), 3)
