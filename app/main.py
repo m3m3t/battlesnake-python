@@ -92,10 +92,9 @@ def move():
 def extend_head(snake, me):
     #coords = map(tuple, snake["body"]["data"])
     coords = [ (c["x"],c["y"]) for c in snake["body"]["data"] ] 
-    print coords
-    """ 
     #print "Have snake: {} -> {}".format(snake["id"], coords)
-    head = (x,y) = coords[0][:2]
+    head = (x,y) = coords[0]
+    
     #print "{} == {}".format(snake["id"], me.myid)
     print "heed = ( {}, {} )".format(x,y)
     if snake["id"] == me.myid:
@@ -104,7 +103,6 @@ def extend_head(snake, me):
         return coords
     
     coords.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
-    """
     return coords
 
 def manhattan(xy):
