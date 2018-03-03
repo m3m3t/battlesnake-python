@@ -91,7 +91,7 @@ def move():
 
 def extend_head(snake, me):
     #coords = map(tuple, snake["body"]["data"])
-    coords = [ (c["x"],c["y"]) for x in snake["body"]["data"] ] 
+    coords = [ (c["x"],c["y"]) for c in snake["body"]["data"] ] 
     print coords
     """ 
     #print "Have snake: {} -> {}".format(snake["id"], coords)
