@@ -77,7 +77,8 @@ def heuristic(a, b, _type='manhattan'):
         return D * (dx*dx + dy*dy)
 
 def reconstruct_path(grid, came_from, start, goal):
-    print "path ",came_from
+    print came_from.keys()
+    print came_from.values()
     current = goal
     path = [current]
     while current != start:
