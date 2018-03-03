@@ -11,6 +11,7 @@ class Snake:
 
     def gather_food(self, food, obstacles):
         self._grid.obstacles = obstacles
+        print("head = {}".format(self.head))
         move = search.get_move(self._grid, self.head, food)
         return move
 
