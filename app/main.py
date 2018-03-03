@@ -74,6 +74,7 @@ def move():
     # Do:
     #   - not eating : turn food into obstacles so I don't grow too big
     #   - remove last tail of other snakes (since it will be gone when I move)
+    food = [ (c["x"],c["y"]) for c in snake["food"]["data"] ] 
     food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
     food = food[:3]
     
@@ -90,7 +91,6 @@ def move():
     }
 
 def extend_head(snake, me):
-    #coords = map(tuple, snake["body"]["data"])
     coords = [ (c["x"],c["y"]) for c in snake["body"]["data"] ] 
     #print "Have snake: {} -> {}".format(snake["id"], coords)
     head = (x,y) = coords[0]
