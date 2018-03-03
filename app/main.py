@@ -66,8 +66,8 @@ def move():
     me = Snake(my_id, board_height, board_width)
     
     blockades =  map(lambda x: extend_head(x,me), data["snakes"]["data"])
-    blockades = blockades[0]
-   
+    print blockades
+
     #TODO: strategy based on:
     # Number of snakes still on the board
     # Number of food on the board (calculate spawn frequency)
