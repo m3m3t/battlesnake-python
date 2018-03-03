@@ -226,7 +226,7 @@ def move():
                 closest_to_food[food_pos]["dist"] = food_dist
                 closest_to_food[food_pos]["id"] = snake.get("id")
 
-            if snake_dist == 1 and snake_size < my_size:
+            if snake_dist == 2 and snake_size < my_size:
                 #offense!
                 pass
             elif snake_dist < 5:
@@ -295,7 +295,7 @@ def move():
         dest = backup_dest
     elif dest == None and backup_dest == None:
         print("we r fuked")
-
+    print("obst: ", extended_obstacles)
     openness = flood_fill(dest,board_size,extended_obstacles)
     if openness < my_size*2:
         print("heading to deadend?")
