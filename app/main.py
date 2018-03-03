@@ -80,16 +80,15 @@ def move():
     # Do:
     #   - not eating : turn food into obstacles so I don't grow too big
     #   - remove last tail of other snakes (since it will be gone when I move)
-    food = [ (c["x"],c["y"]) for c in data["food"]["data"] ] 
-    #food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
-    food = food[:3]
-
-    if len(food) == 0:
-        food.append(me.tail) #TODO: chase tail
+    if my_health < 75 or my_len < 5:
+        food = [ (c["x"],c["y"]) for c in data["food"]["data"] ] 
+        food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
+        food = food[0]
     
-    #Test if there is no food
+    food.append(me.tail) #chase tail
+    food.append((board_width/2,board_height/2)) 
+    
     move = me.gather_food(food, blockades)
-    #move = me.run_away(food, blockades)
 
     
     #directions = ['up', 'down', 'left', 'right']
@@ -104,12 +103,12 @@ def extend_head(snake, me):
     coords = [ (c["x"],c["y"]) for c in snake["body"]["data"] ] 
     #print "Have snake: {} -> {}".format(snake["id"], coords)
     head = (x,y) = coords[0]
-    
+
     print "{} == {}".format(snake["id"], me.myid)
     #print "head = ( {}, {} )".format(x,y)
     if snake["id"] == me.myid:
         me.head = head
-        me.tail = coords[-1]
+        me.tail = tail 
         return coords
     
     coords.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
