@@ -76,11 +76,11 @@ def move():
     #   - not eating : turn food into obstacles so I don't grow too big
     #   - remove last tail of other snakes (since it will be gone when I move)
     food = [ (c["x"],c["y"]) for c in data["food"]["data"] ] 
-    food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
+    #food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
     food = food[:3]
 
     if len(food) == 0:
-        food.append((1,1)) #TODO: chase tail
+        food.append(me.tail) #TODO: chase tail
     
     #Test if there is no food
     move = me.gather_food(food, blockades)
@@ -104,6 +104,7 @@ def extend_head(snake, me):
     #print "head = ( {}, {} )".format(x,y)
     if snake["id"] == me.myid:
         me.head = head
+        me.tail = coords[-1]
         return coords
     
     coords.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
