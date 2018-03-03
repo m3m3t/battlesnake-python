@@ -96,8 +96,8 @@ def extend_head(snake, me):
     #print "Have snake: {} -> {}".format(snake["id"], coords)
     head = (x,y) = coords[0]
     
-    #print "{} == {}".format(snake["id"], me.myid)
-    print "heed = ( {}, {} )".format(x,y)
+    print "{} == {}".format(snake["id"], me.myid)
+    #print "head = ( {}, {} )".format(x,y)
     if snake["id"] == me.myid:
         #print "Setting head position to {}".format(head)
         me.head = head
