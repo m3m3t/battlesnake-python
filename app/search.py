@@ -121,15 +121,8 @@ def a_star_search(result, grid, start, goal):
     x = -1
     y = -1
     cost = MAX_COST
-    try:
-        (x,y) = reconstruct_path(grid, came_from, start, goal)
-    except Exception as e:
-        print "Error occured in reconstruct path: ",e
-    
-    try:
-        cost = cost_so_far[goal]
-    except Exception as e:
-        print "Error occured in cost_so_far: ",e
+    (x,y) = reconstruct_path(grid, came_from, start, goal)
+    cost = cost_so_far[goal]
 
     result[0] = x
     result[1] = y
