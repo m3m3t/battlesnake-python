@@ -85,12 +85,13 @@ def reconstruct_path(grid, came_from, start, goal):
             current = came_from[current]
             path.append(current)
         path.reverse() 
+        next_move = path[1]
     except:
         print "No path found"
         valid = grid.neighbors(start)
         return random.choice(valid),-1
     
-    return path[1], goal
+    return next_move, goal
 
 def a_star_search(result, grid, start, goal):
     frontier = PriorityQueue()
