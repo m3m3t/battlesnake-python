@@ -100,11 +100,11 @@ def extend_head(snake, me):
     print "{} == {}".format(snake["id"], me.myid)
     #print "head = ( {}, {} )".format(x,y)
     if snake["id"] == me.myid:
-        #print "Setting head position to {}".format(head)
         me.head = head
         return coords
     
     coords.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
+    print coords
     return coords
 
 def manhattan(xy):
