@@ -78,6 +78,9 @@ def move():
     food = [ (c["x"],c["y"]) for c in data["food"]["data"] ] 
     food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
     food = food[:3]
+
+    if len(food) < 3:
+        food.extend([(1,1),(board_width-1,board_height-1)])
     
     #Test if there is no food
     move = me.gather_food(food, blockades)
@@ -104,8 +107,7 @@ def extend_head(snake, me):
         return coords
     
     coords.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
-    print coords
-    return coords
+    return list(set(coords))
 
 def manhattan(xy):
     (x1,y1) = xy
