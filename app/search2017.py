@@ -3,33 +3,38 @@ import ctypes
 from multiprocessing import Process as _Process, Array as _Array
 import numpy as _np
 
+MAX_COST = 100000
+
 class SimpleGraph:
     def __init__(self):
         self.edges = {}
     
-    def neighbors(self, id):
-        return self.edges[id]
+    def neighbors(self, xy):
+        return self.edges[xy]
 
 class SquareGrid:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.snakes = [] #list of x,y coordinates
+        self.obstacles = [] #list of x,y coordinates
     
-    def in_bounds(self, id):
-        (x, y) = id
-        #return 0 <= x < self.width and 0 <= y < self.height
-        return 0 < x < self.width and 0 < y < self.height
+    def in_bounds(self, xy):
+        (x, y) = xy
+        return 0 < x < self.width-1 and 0 < y < self.height-1
     
-    def passable(self, id):
-        return id not in self.snakes
+    def passable(self, xy):
+        #print "Obstacles: ", xy, self.obstacles
+        return xy not in self.obstacles
     
-    def neighbors(self, id):
-        (x, y) = id
+    def neighbors(self, xy):
+        (x, y) = xy
         results = [(x+1, y), (x, y-1), (x-1, y), (x, y+1)]
         if (x + y) % 2 == 0: results.reverse() # aesthetics
+        #print "Neighbours at ", results
         results = filter(self.in_bounds, results)
+        #print "Neighbours that are inbounds: ", results
         results = filter(self.passable, results)
+        #print "Neighbours that {} can go to {}".format(xy, results)
         return results
 
     def pad_arr(vector, pad_width, iaxis, kwargs):
@@ -39,7 +44,7 @@ class SquareGrid:
 
     def cost(self, from_node, to_node):
         if self.passable(to_node): return 1
-        return 1000
+        return MAX_COST
 
 import heapq
 class PriorityQueue:
@@ -71,7 +76,7 @@ def heuristic(a, b, _type='manhattan'):
     elif _type == 'euclidean':
         return D * (dx*dx + dy*dy)
 
-def reconstruct_path(came_from, start, goal):
+def reconstruct_path(grid, came_from, start, goal):
     current = goal
     path = [current]
     while current != start:
@@ -80,10 +85,16 @@ def reconstruct_path(came_from, start, goal):
         path.reverse()
    
     #print "Path:", path
-    return path[1]
+    valid = grid.neighbors(start)
+    #print "Valid moves = ", valid
+    next_move = [ p for p in path[1:] if p in valid ]
+    
+    if len(next_move) == 0:
+        return valid[0]
+    
+    return next_move[0] 
 
 def a_star_search(result, grid, start, goal):
-    
     frontier = PriorityQueue()
     frontier.put(start, 0)
     came_from = {}
@@ -95,6 +106,7 @@ def a_star_search(result, grid, start, goal):
         current = frontier.get()
         
         if current == goal:
+            #print "At goal, break"
             break
         
         for next in grid.neighbors(current):
@@ -107,27 +119,25 @@ def a_star_search(result, grid, start, goal):
  
 
     try:
-        (x,y) = reconstruct_path(came_from, start, goal)
+        (x,y) = reconstruct_path(grid, came_from, start, goal)
         result[0] = x
         result[1] = y
         result[2] = cost_so_far[goal]
     except:
         print "Error occured"
+        result[0] = 0
+        result[1] = 0
+        result[2] = MAX_COST 
         
 
-def ping(grid, current, goals,last_dir):
-    current = tuple(current) 
-    goals = [ tuple(x) for x in goals ]
+
+def ping(grid, curr_pos, goals):
+    
     shared_array_base = _Array(ctypes.c_int, len(goals)*3)
     result = _np.ctypeslib.as_array(shared_array_base.get_obj())
     result = result.reshape(len(goals), 3)
   
-    
-    #result = [ a_star_search([0,0,0], grid, current, goal) for goal in goals ]
-
-    processes = [ _Process(target=a_star_search, args=(result[i], grid, current, goal)) for i, goal in enumerate(goals) ]
-    
-    #processes = [ _Process(target=a_star_search, args=(result, grid, current, goal)) ]
+    processes = [ _Process(target=a_star_search, args=(result[i], grid, curr_pos, goal)) for i, goal in enumerate(goals) ]
     
     for p in processes:
         p.start();
@@ -135,19 +145,15 @@ def ping(grid, current, goals,last_dir):
     for p in processes:
         p.join();
     
-    print "Results:", result
-    cost = 1000000000000000000000 #result[0][2] 
+    cost = MAX_COST 
     index = -1
     for i,x in enumerate(result):
-        if x[2] < cost and x[2] > 0:
+        if x[2] < cost and x[2] > 0:  #and (x[0],x[1] in valid):
             cost = x[2]
             index = i
-
-    if index == -1:
-        return last_dir
-
+  
     next_move = (result[index][0], result[index][1]) 
-    move = get_dir(current, next_move) 
+    move = get_dir(curr_pos, next_move) 
   
     return move
 
@@ -155,20 +161,18 @@ def get_dir(a,b):
     (x1, y1) = a
     (x2, y2) = b
 
-    #print "Going {} to {}".format(a,b)
+    print "Going {} to {}".format(a,b)
 
     if x1 == x2:
-        if y1 < y2: return "south"
-        else: return "north"
+        if y1 < y2: return "down"
+        else: return "up"
     else:
-        if x1 < x2: return "east"
+        if x1 < x2: return "right"
 
-    return "west"
+    return "left"
 
-def get_move(grid, current, food, last_dir):
-
-    move = ping(grid, current, food, last_dir) 
-    #print "Moving to: ", move
-    #print "final move: ",move
+def get_move(grid, curr_pos, food):
+    move = ping(grid, curr_pos, food) 
+    print "Moving to: ", move
     return move
 
