@@ -88,15 +88,15 @@ def reconstruct_path(grid, came_from, start, goal):
     except:
         print "No path found"
         valid = grid.neighbors(start)
-        return random.choice(valid),MAX_COST
+        return random.choice(valid),-1
     
-    return path[1],cost_so_far[goal] 
+    return path[1], goal
 
 def a_star_search(result, grid, start, goal):
     frontier = PriorityQueue()
     frontier.put(start, 0)
     came_from = {}
-    cost_so_far = {}
+    cost_so_far = {-1: MAX_COST}
     came_from[start] = None
     cost_so_far[start] = 0
     
@@ -116,8 +116,8 @@ def a_star_search(result, grid, start, goal):
                 came_from[next] = current
  
 
-    (x,y),cost = reconstruct_path(grid, came_from, start, goal)
-
+    (x,y),goal_idx = reconstruct_path(grid, came_from, start, goal)
+    cost = cost_so_far[goal_idx]
     result[0] = x
     result[1] = y
     result[2] = cost 
