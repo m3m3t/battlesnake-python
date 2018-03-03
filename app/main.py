@@ -91,10 +91,11 @@ def move():
 
 def extend_head(snake, me):
     coords = map(tuple, snake["body"]["data"])
+    print coords
     #print "Have snake: {} -> {}".format(snake["id"], coords)
     head = (x,y) = coords[0][:2]
     #print "{} == {}".format(snake["id"], me.myid)
-
+    print "heed = ( {}, {} )".format(x,y)
     if snake["id"] == me.myid:
         #print "Setting head position to {}".format(head)
         me.head = head
