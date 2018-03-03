@@ -1,9 +1,7 @@
 import bottle
 import os
 import random
-
 import numpy as np
-#from app.snake import Snake
 from snake import Snake
 
 """
@@ -11,8 +9,6 @@ class Strategy:
     SCARED
     HUNGRY
 """
-
-me = None
 
 @bottle.route('/')
 def static():
@@ -30,6 +26,7 @@ def start():
     game_id = data.get('game_id')
     board_width = data.get('width')
     board_height = data.get('height')
+    
 
     head_url = '%s://%s/static/head.png' % (
         bottle.request.urlparts.scheme,
@@ -80,13 +77,14 @@ def move():
     # Do:
     #   - not eating : turn food into obstacles so I don't grow too big
     #   - remove last tail of other snakes (since it will be gone when I move)
+    food = [] 
     if my_health < 75 or my_len < 5:
         food = [ (c["x"],c["y"]) for c in data["food"]["data"] ] 
         food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
-        food = food[0]
+        food = food[:1]
     
     food.append(me.tail) #chase tail
-    food.append((board_width/2,board_height/2)) 
+    food.append((board_width/2,board_height/2)) #TODO: Randomly select spot on the boards 
     
     move = me.gather_food(food, blockades)
 
