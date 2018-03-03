@@ -30,7 +30,6 @@ class SquareGrid:
     def neighbors(self, xy):
         (x, y) = xy
         results = [(x+1, y), (x, y-1), (x-1, y), (x, y+1)]
-        #if (x + y) % 2 == 0: results.reverse() # aesthetics
         #print "Neighbours at ", results
         results = filter(self.in_bounds, results)
         #print "Neighbours that are inbounds: ", results
@@ -89,6 +88,7 @@ def reconstruct_path(grid, came_from, start, goal):
     except:
         print "No path found"
         valid = grid.neighbors(start)
+        print "valid=",valid
         return random.choice(valid),-1
     
     return next_move, goal
