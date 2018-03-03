@@ -3,7 +3,7 @@ import os
 import random
 
 import numpy as np
-from snake import Snake
+from app.snake import Snake
 
 """
 class Strategy:
