@@ -84,15 +84,14 @@ def reconstruct_path(grid, came_from, start, goal):
     while current != start:
         current = came_from[current]
         path.append(current)
-        path.reverse()
-   
-    #print "Path:", path
-    valid = grid.neighbors(start)
+        #path.reverse()
+    path.reverse() 
+    print "Path:", path
+    #valid = grid.neighbors(start)
     #print "Valid moves = ", valid
-    next_move = [ p for p in path[1:] if p in valid ]
-    
-    if len(next_move) == 0:
-        return valid[0]
+    #next_move = [ p for p in path[1:] if p in valid ]
+    #if len(next_move) == 0:
+    #    return valid[0]
     
     return next_move[0] 
 
