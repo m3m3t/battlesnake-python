@@ -93,7 +93,7 @@ def reconstruct_path(grid, came_from, start, goal):
     #if len(next_move) == 0:
     #    return valid[0]
     
-    return next_move[0] 
+    return path[0] 
 
 def a_star_search(result, grid, start, goal):
     frontier = PriorityQueue()
