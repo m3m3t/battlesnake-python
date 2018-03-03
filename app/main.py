@@ -3,7 +3,8 @@ import os
 import random
 
 import numpy as np
-from app.snake import Snake
+#from app.snake import Snake
+from snake import Snake
 
 """
 class Strategy:
@@ -35,8 +36,6 @@ def start():
         bottle.request.urlparts.netloc
     )
 
-    # TODO: Do things with data
-    me = Snake(my_id, board_height, board_width)
 
     {
         "color": "#FF0000",
@@ -57,13 +56,13 @@ def start():
 
 @bottle.post('/move')
 def move():
-    global me
     data = bottle.request.json
     
     my_id = data["you"]
     board_width = data['width']
     board_height = data['height']
-   # me = Snake(my_id, board_height, board_width)
+    # TODO: Do things with data
+    me = Snake(my_id, board_height, board_width)
     
     blockades =  map(lambda x: extend_head(x,me), data["snakes"]["data"])
     blockades = blockades[0]
@@ -117,6 +116,6 @@ application = bottle.default_app()
 if __name__ == '__main__':
     bottle.run(
         application,
-        host=os.getenv('IP', '0.0.0.0'),
+        host=os.getenv('IP', '127.0.0.1'),
         port=os.getenv('PORT', '8080'),
         debug = True)
