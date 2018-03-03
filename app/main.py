@@ -69,26 +69,17 @@ def move():
     me = Snake(my_id, board_height, board_width)
     
     blockades =  map(lambda x: extend_head(x,me), data["snakes"]["data"])
-    blockades = [ y for x in blockades for y in x ]
+    blockades = list(set([ y for x in blockades for y in x ]))
 
-    #TODO: strategy based on:
-    # Number of snakes still on the board
-    # Number of food on the board (calculate spawn frequency)
-    # My current health
-    # Do:
-    #   - not eating : turn food into obstacles so I don't grow too big
-    #   - remove last tail of other snakes (since it will be gone when I move)
-    food = [] 
+    food = [ (c["x"],c["y"]) for c in data["food"]["data"] ] 
+    food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
+        
     if my_health < 75 or my_len < 5:
-        food = [ (c["x"],c["y"]) for c in data["food"]["data"] ] 
-        food.sort(key=lambda xy: abs(xy[0] - me.head[0]) + abs(xy[1] - me.head[1])) 
-        food = food[:2]
-    
-    food.append(me.tail) #chase tail
-    food.append((board_width/2,board_height/2)) #TODO: Randomly select spot on the boards 
-    
-    move = me.gather_food(food, blockades)
-    
+        move = me.gather_food(food[:3], blockades)
+    else:
+        blockades.extend(food)
+        move = me.go_chase(blockades)
+
     #directions = ['up', 'down', 'left', 'right']
     #move = random.choice(directions)
     return {
@@ -101,15 +92,16 @@ def extend_head(snake, me):
     #print "Have snake: {} -> {}".format(snake["id"], coords)
     head = (x,y) = coords[0]
 
-    print "{} == {}".format(snake["id"], me.myid)
     #print "head = ( {}, {} )".format(x,y)
     if snake["id"] == me.myid:
         me.head = head
         me.tail = coords[-1] 
+        me.chase.append(coorda[-1])
         return coords
-    
-    coords.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
-    return list(set(coords))
+
+    me.chase.append(coords[-1]) 
+    #coords.extend([(x+1, y), (x, y-1), (x-1, y), (x, y+1)])
+    return coords
 
 def manhattan(xy):
     (x1,y1) = xy

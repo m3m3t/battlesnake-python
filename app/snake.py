@@ -7,11 +7,17 @@ class Snake:
         self._length = 10 #TODO: ?
         self._health = 100
         self._grid = search.SquareGrid(_height, _width)
+        self.chase = []
         #self._position = (0,0)
 
     def gather_food(self, food, obstacles):
         self._grid.obstacles = obstacles
         move = search.get_move(self._grid, self.head, food)
+        return move
+    
+    def go_chase(self, obstacles):
+        self._grid.obstacles = obstacles
+        move = search.get_move(self._grid, self.head, self.chase)
         return move
 
     def on_offense(self):
