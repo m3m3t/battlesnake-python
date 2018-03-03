@@ -77,16 +77,13 @@ def heuristic(a, b, _type='manhattan'):
         return D * (dx*dx + dy*dy)
 
 def reconstruct_path(grid, came_from, start, goal):
-    print came_from.keys()
-    print came_from.values()
     current = goal
     path = [current]
-    while current != start:
+    while current != start and current != None:
         current = came_from[current]
         path.append(current)
-        #path.reverse()
     path.reverse() 
-    print "Path:", path
+    
     #valid = grid.neighbors(start)
     #print "Valid moves = ", valid
     #next_move = [ p for p in path[1:] if p in valid ]
